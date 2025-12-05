@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Assignment</title>
+</head>
+
+<body>
+    <h2>User Information Form</h2>
+
+    <form id="userForm">
+        <label>Name:
+            <input type="text" id="name" required>
+        </label>
+        <br><br>
+
+        <label>Age:
+            <input type="number" id="age" required>
+        </label>
+        <br><br>
+
+        <label>Gender:</label>
+        <label><input type="radio" name="gender" value="Male" required>Male</label>
+        <label><input type="radio" name="gender" value="Female">Female</label>
+        <label><input type="radio" name="gender" value="Other">Other</label>
+        <br><br>
+
+        <label>Country:
+            <select id="country" required>
+                <option value="">Select</option>
+                <option>India</option>
+                <option>USA</option>
+                <option>Japan</option>
+                <option>China</option>
+            </select>
+        </label>
+        <br><br>
+
+        <label>Technological Stack:</label>
+        <label><input type="checkbox" value="HTML" class="stack">HTML</label>
+        <label><input type="checkbox" value="CSS" class="stack">CSS</label>
+        <label><input type="checkbox" value="JS" class="stack">JS</label>
+        <label><input type="checkbox" value="React" class="stack">React</label>
+        <label><input type="checkbox" value="React Native" class="stack">React Native</label>
+        <br><br>
+
+        <label>Address:
+            <textarea id="address" rows="3" required></textarea>
+        </label>
+        <br><br>
+
+        <label>Telephone:
+            <input type="tel" id="telephone" pattern="[0-9]{10}" required>
+        </label>
+        <br><br>
+
+        <label>Email:
+            <input type="email" id="email" required>
+        </label>
+        <br><br>
+
+        <button type="reset">Reset</button>
+        <button type="button" onclick="handleSubmit()">Submit</button>
+    </form>
+
+    <br>
+    <table id="resultTable" border="1" style="display:none;">
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        <tbody id="resultBody"></tbody>
+    </table>
+
+    <script>
+        function handleSubmit() {
+            const form=document.getElementById("userForm");
+            if(!form.checkValidity()) {
+                alert("Please fill all fields correctly");
+                return;
+            }
+
+            const data={
+                Name: form.name.value,
+                Age: form.age.value,
+                Gender: form.gender.value,
+                Country: form.country.value,
+                // Get all .stack:checked → NodeList → Array → extract .value → join into string
+                TechStack: [...form.querySelectorAll('.stack:checked')].map(s => s.value).join(', '),
+                Address: form.address.value,
+                Telephone: form.telephone.value,
+                Email: form.email.value
+            };
+
+            const body=document.getElementById("resultBody");
+            body.innerHTML=Object.entries(data)
+                .map(([key,value]) => 
+                    `<tr>
+                    <td>${key}</td>
+                    <td>${value}</td>
+                    </tr>`
+                )
+                .join("");
+
+            document.getElementById("resultTable").style.display="table";
+        }
+
+    </script>
+</body>
+
+</html>
